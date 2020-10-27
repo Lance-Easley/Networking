@@ -14,10 +14,10 @@ try:
 except socket.error as e:
     str(e)
 
-s.listen(2)
+s.listen(3)
 print("Waiting for a connection, Server Started")
 
-players = [Player(0, 0, 50, 50, (255, 0, 0)), Player(100, 100, 50, 50, (0, 0, 255))]
+players = [Player(0, 0, 40, 60, (255, 0, 0)), Player(100, 100, 40, 60, (0, 0, 255)), Player(200, 200, 40, 60, (0, 255, 0))]
 
 def threaded_client(conn, player):
     conn.send(pickle.dumps(players[player]))
@@ -31,10 +31,12 @@ def threaded_client(conn, player):
                 print("Disconnected")
                 break
             else:
-                if player == 1:
-                    reply = players[0]
-                else:
-                    reply = players[1]
+                if player == 0:
+                    reply = [players[1], players[2]] 
+                elif player == 1:
+                    reply = [players[0], players[2]]
+                else: 
+                    reply = [players[0], players[1]]
 
                 print("Received:", data)
                 print("Sending:", reply)
