@@ -41,51 +41,6 @@ def threaded_client(conn, player):
                 for p in range(len(players)):
                     if p != player:
                         reply.append(players[p])
-                # if player == 0:
-                #     reply = [
-                #         players[1], players[2], players[3], players[4], 
-                #         players[5], players[6], players[7], players[8]
-                #         ] 
-                # elif player == 1:
-                #     reply = [
-                #         players[0], players[2], players[3], players[4], 
-                #         players[5], players[6], players[7], players[8]
-                #         ]
-                # elif player == 2: 
-                #     reply = [
-                #         players[1], players[0], players[3], players[4], 
-                #         players[5], players[6], players[7], players[8]
-                #         ]
-                # elif player == 3:
-                #     reply = [
-                #         players[1], players[2], players[0], players[4], 
-                #         players[5], players[6], players[7], players[8]
-                #         ]
-                # elif player == 4:
-                #     reply = [
-                #         players[1], players[2], players[3], players[0], 
-                #         players[5], players[6], players[7], players[8]
-                #         ]
-                # elif player == 5:
-                #     reply = [
-                #         players[1], players[2], players[3], players[4], 
-                #         players[0], players[6], players[7], players[8]
-                #         ]
-                # elif player == 6:
-                #     reply = [
-                #         players[1], players[2], players[3], players[4], 
-                #         players[5], players[6], players[7], players[8]
-                #         ]
-                # elif player == 7:
-                #     reply = [
-                #         players[1], players[2], players[3], players[4], 
-                #         players[5], players[6], players[0], players[8]
-                #         ]
-                # elif player == 8:
-                #     reply = [
-                #         players[1], players[2], players[3], players[4], 
-                #         players[5], players[6], players[7], players[0]
-                #         ]
 
                 print("Received:", data)
                 print("Sending:", reply)

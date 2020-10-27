@@ -8,17 +8,11 @@ win = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Client")
 
 
-def redrawWindow(win, player1, player2, player3, player4, player5, player6, player7, player8, player9):
+def redrawWindow(win, p1, players):
     win.fill((255, 255, 255))
-    player1.draw(win)
-    player2.draw(win)
-    player3.draw(win)
-    player4.draw(win)
-    player5.draw(win)
-    player6.draw(win)
-    player7.draw(win)
-    player8.draw(win)
-    player9.draw(win)
+    p1.draw(win)
+    for p in players:
+        p.draw(win)
     pygame.display.update()
 
 
@@ -30,7 +24,7 @@ def main():
     
     while run:
         clock.tick(60)
-        p2, p3, p4, p5, p6, p7, p8, p9 = n.send(p1)
+        players = n.send(p1)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -38,6 +32,6 @@ def main():
                 pygame.quit()
         
         p1.move()
-        redrawWindow(win, p1, p2, p3, p4, p5, p6, p7, p8, p9)
+        redrawWindow(win, p1, players)
 
 main()
