@@ -4,7 +4,7 @@ import sys
 from player import Player, Absent
 import pickle
 
-server = "192.168.1.59"
+server = "192.168.1.141"
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -15,7 +15,7 @@ except socket.error as e:
     str(e)
 
 s.listen(9)
-print("Waiting for a connection, Server Started")
+print("[GAME] Waiting for a connection, Server Started")
 
 player_list = [
     Player(0, 0, 40, 60, (255, 0, 0)), Player(100, 0, 40, 60, (0, 0, 255)), Player(200, 0, 40, 60, (0, 255, 0)), 
@@ -23,39 +23,54 @@ player_list = [
     Player(0, 200, 40, 60, (255, 255, 0)), Player(100, 200, 40, 60, (255, 0, 255)), Player(200, 200, 40, 60, (0, 255, 255)), 
     ]
 
-players = []
+player = 0
+connected = set()
+players = {}
 
-def threaded_client(conn, player):
-    conn.send(pickle.dumps(players[player]))
+def threaded_client(conn, playerId):
+    global player
+    conn.send(pickle.dumps(players[playerId]))
     reply = ""
     while True:
         try:
             data = pickle.loads(conn.recv(2048)) # Truanced: increase number
-            players[player] = data
 
-            if not data:
-                print("Disconnected")
-                break
+            if playerId in players:
+                p = players[playerId]
+            
+                players[playerId] = data
+
+                if not data:
+                    print("[ERROR] Disconnected")
+                    break
+                else:
+                    reply = []
+                    for p in range(len(players)):
+                        if p != playerId:
+                            reply.append(players[p])
+
+                    #print("Received:", data)
+                    #print("Sending:", reply)
+
+                conn.sendall(pickle.dumps(reply))
             else:
-                reply = []
-                for p in range(len(players)):
-                    if p != player:
-                        reply.append(players[p])
-
-                print("Received:", data)
-                print("Sending:", reply)
-
-            conn.sendall(pickle.dumps(reply))
+                break
         except:
             break
-    print("Lost Connestion")
+    print("[GAME] Client Left")
+    try:
+        players.pop(playerId)
+        print("[GAME] Disconnecting Player", playerId)
+        player -= 1
+    except:
+        pass
     conn.close()
 
-currentPlayer = 0
 while True:
     conn, addr = s.accept()
-    players.append(player_list[currentPlayer])
-    print("Connected to:", addr)
+    players[player] = player_list[player]
+    print("[DEBUG] Connected to:", addr)
+    print("[DEBUG]", players)
 
-    start_new_thread(threaded_client, (conn, currentPlayer))
-    currentPlayer += 1
+    start_new_thread(threaded_client, (conn, player))
+    player += 1
