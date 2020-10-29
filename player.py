@@ -32,16 +32,3 @@ class Player():
     
     def update(self):
         self.rect = (self.x, self.y, self.width, self.height)
-
-class Absent():
-    def __init__(self):
-        pass
-    
-    def draw(self, win):
-        pass
-
-    def move(self):
-        pass
-
-    def update(self):
-        pass
