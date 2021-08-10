@@ -4,7 +4,7 @@ import sys
 from player import Player
 import pickle
 
-server = "192.168.1.141"
+server = socket.gethostbyname(socket.gethostname())
 port = 5555
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -15,7 +15,7 @@ except socket.error as e:
     str(e)
 
 s.listen(9)
-print("[GAME] Waiting for a connection, Server Started")
+print("[GAME] Waiting for a connection to " + server + ", Server Started")
 
 player_list = [
     Player(0, 0, 40, 60, (255, 0, 0)), Player(100, 0, 40, 60, (0, 0, 255)), Player(200, 0, 40, 60, (0, 255, 0)), 

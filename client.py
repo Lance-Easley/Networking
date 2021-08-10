@@ -17,8 +17,9 @@ def redrawWindow(win, p1, players):
 
 
 def main():
+    ip_to_connect = input("Specify IP to connect to: ")
     run = True
-    n = Network()
+    n = Network(server=ip_to_connect)
     p1 = n.getP()
     clock = pygame.time.Clock()
     
